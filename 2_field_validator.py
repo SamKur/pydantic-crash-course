@@ -6,10 +6,10 @@ class Patient(BaseModel):
     model_config = ConfigDict(strict=None) # by default None ie safe & obvious coercion allowed
                                            # '32' str to 32 int || 32.2 float -> 32 int
     
-    name: str
+    name: str = "UNKNOWN UNKNOWN"
     email: EmailStr
     age: int
-    weight: float
+    weight: float = Field(gt=0, lt=150, default=50, description='A decimal value representing the weight of the patient')
     married: bool
     allergies: List[str]
     contact_details: Dict[str, str]
