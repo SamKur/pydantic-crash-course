@@ -3,6 +3,9 @@ from typing import List, Dict, Optional, Annotated
 
 class Patient(BaseModel):
 
+    model_config = ConfigDict(strict=None) # by default None ie safe & obvious coercion allowed
+                                           # '32' str to 32 int || 32.2 float -> 32 int
+    
     name: str
     email: EmailStr
     age: int
