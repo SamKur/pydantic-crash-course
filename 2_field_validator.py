@@ -14,7 +14,7 @@ class Patient(BaseModel):
     email: EmailStr
     age: int
     weight: float = Field(gt=0, lt=150, default=50, description='A decimal value representing the weight of the patient')
-    married: bool
+    married: bool = None    # Optional
     allergies: List[str]
     contact_details: Dict[str, str]
 
