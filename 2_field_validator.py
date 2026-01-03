@@ -1,13 +1,20 @@
-from pydantic import BaseModel, EmailStr, AnyUrl, Field, field_validator
+from pydantic import BaseModel, EmailStr, AnyUrl, Field, field_validator, ConfigDict
 from typing import List, Dict, Optional, Annotated
 
 class Patient(BaseModel):
 
-    name: str
+    model_config = ConfigDict(strict=None) # by default None ie safe & obvious coercion allowed
+                                           # '32' str to 32 int || 32.2 float -> 32 int
+    
+    # name: str = "UNKNOWN UNKNOWN"          # Pydantic v1 style
+    # name: Optional[str] = Field(default="UNKNOWN UNKNOWN", description="Patient name") # Pydantic v1/v2 hybrid, Field is metadata, 
+                                                                                         # but ambigous for IDE/mypy, as name is treated as FieldInfo (not str)
+    name: Annotated[Optional[str], Field(default="UNKNOWN UNKNOWN", description="Patient name")]  # v2-recommended, cleaner for modern usage
+    
     email: EmailStr
     age: int
-    weight: float
-    married: bool
+    weight: float = Field(gt=0, lt=150, default=50, description='A decimal value representing the weight of the patient')
+    married: bool = None    # Optional
     allergies: List[str]
     contact_details: Dict[str, str]
 
