@@ -9,7 +9,7 @@ insert_patient_data1('susamay', 'twenty')   # Incorrect data pass due to dynamic
 
 print("=== NOW USING BUIT-IN PYTHON TYPE HINTING ===")
 
-def insert_patient_data2(name, age):
+def insert_patient_data2(name: str, age: int):
     print(name)
     print(age)
     print('inserted into db with type hinting')
