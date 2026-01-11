@@ -76,7 +76,7 @@ print('accessing value of phone directly - ', patient1.contact_details['phone'])
 print('*'*60)
 print("=== PYDANTIC v2 STYLE TYPE AND DATA VALIDATION, ADDED LATEST PRACTICES ===")
 
-from typing import Annotated, Optional, List, Dict  # py3.9+ doesnt require import except Annotated; use buit-in | (union), list, dict directly like Optional[bool] is same as bool | None
+from typing import Annotated, Optional, List, Dict, Any  # py3.9+ doesnt require import except Annotated Any; use buit-in | (union), list, dict directly like Optional[bool] is same as bool | None
 from pydantic import BaseModel, Field, EmailStr, AnyUrl
 
 # Reusable type defining (Notice the '=' sign), can be re-used multiple time across classes
@@ -90,12 +90,12 @@ class Patient(BaseModel):
     name: Annotated[str, Field(max_length=50, title='Name of the patient', description='Give the name of the patient in less than 50 chars', examples=['Nitish', 'Amit'])]
     email: NormalizedEmail  # Using the alias (Notice the ':' sign)
     linkedin_url: AnyUrl
-    age: int = Field(gt=0, lt=120)  # DATA VALIDATION - age must be between 0 and 120
+    age: int = Field(gt=0, le=120)  # DATA VALIDATION - age must be between 0 and 120
     weight: Annotated[float, Field(gt=0, strict=True)]  # strict=True means it should be exactly float, coerce to float is not allowed
     married: Annotated[Optional[bool], Field(default=None, description='Is the patient married or not')] = False    # Avoid Confusing: Two defaults but here False wins
     # OR married: Annotated[bool | None, Field(description='Is the patient married or not')]
     allergies: Annotated[Optional[List[str]], Field(default=None, max_length=5)] # max_items=5)] depricated
-    contact_details: Dict[str, str]     # Dict[str, str] earlier
+    contact_details: dict[str, str]     # Dict[str, str] earlier
     
 def update_patient_data(patient: Patient):
     print(patient.name)

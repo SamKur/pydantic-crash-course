@@ -12,7 +12,7 @@ class Patient(BaseModel):
     gender: str = "Male"
     age: int
     address: Address
-    isMarried: bool = None
+    isMarried: bool = False
 
 address_dict = {'city': 'gurgaon', 'state': 'haryana', 'pin': '122001'}
 
@@ -28,9 +28,9 @@ temp1 = patient1.model_dump()  # serialize the model-object to a dictionary
 temp2 = patient1.model_dump_json()  # serialize the model-object to a json for api etc
 print(temp2)
 
-temp = patient1.model_dump(include=['name', 'age'], exclude= {'address':['state']} , exclude_unset=True)  # exclude attributes that are not set while creating the model-object
+temp = patient1.model_dump(include=['name', 'age'], exclude= {'address':['state']} , exclude_unset=True)  # exclude attributes that are not explicitly set while creating the model-object
+        # ie dont include default values
 print(temp)
-print(type(temp))
 
 
 # Benefits of Nested Models

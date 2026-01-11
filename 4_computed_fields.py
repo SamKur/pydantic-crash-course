@@ -14,7 +14,7 @@ class Patient(BaseModel):
 
     @computed_field
     @property
-    def bmi(self) -> float:
+    def bmi(self) -> float:     # this will act as variable, included in model_dump()
         bmi = round(self.weight/(self.height**2),2)
         return bmi
 
