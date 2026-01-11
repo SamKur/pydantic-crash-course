@@ -12,6 +12,7 @@ class Patient(BaseModel):
     gender: str = "Male"
     age: int
     address: Address
+    isMarried: bool = None
 
 address_dict = {'city': 'gurgaon', 'state': 'haryana', 'pin': '122001'}
 
@@ -21,10 +22,13 @@ patient_dict = {'name': 'nitish', 'age': 35, 'address': address1}
 
 patient1 = Patient(**patient_dict)
 
+# print(patient1)      # name='nitish' gender='Male' age=35 address=Address(city='gurgaon', state='haryana', pin='122001')
+
 temp1 = patient1.model_dump()  # serialize the model-object to a dictionary 
+temp2 = patient1.model_dump_json()  # serialize the model-object to a json for api etc
+print(temp2)
 
 temp = patient1.model_dump(include=['name', 'age'], exclude= {'address':['state']} , exclude_unset=True)  # exclude attributes that are not set while creating the model-object
-
 print(temp)
 print(type(temp))
 
