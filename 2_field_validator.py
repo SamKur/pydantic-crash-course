@@ -19,8 +19,8 @@ class Patient(BaseModel):
     contact_details: Dict[str, str]
 
     @field_validator('email_fmt')
-    @classmethod
-    def email_validator(cls, value):
+    @classmethod        # always classmethod as Validators run during object construction, not after. 
+    def email_validator(cls, value): # At validation time, the instance (self) doesn't exist yet or is incomplete.
         valid_domains = ['hdfc.com', 'icici.com']
         # abc@gmail.com
         domain_name = value.split('@')[-1]

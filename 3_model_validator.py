@@ -12,11 +12,11 @@ class Patient(BaseModel):
     contact_details: Dict[str, str]
     # contact_details: Mapping[Literal["phone", "emergency"], str]  # to set the keys as required
 
-    @model_validator(mode='after')  # instance methods (self) for 'after' mode, no need of @classmethod
+    @model_validator(mode='after')  # instance methods (self) for 'after' mode, no need of @classmethod as Complete instance
     def validate_emergency_contact(self):
         if self.age > 60 and 'emergency' not in self.contact_details:
             raise ValueError('Patients older than 60 must have an emergency contact')
-        return self
+        return self  # Must return self
 
     @model_validator(mode='before')  # @classmethod required for 'before'/'wrap'
     @classmethod
