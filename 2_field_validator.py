@@ -10,7 +10,7 @@ class Patient(BaseModel):
     # name: Optional[str] = Field(default="UNKNOWN UNKNOWN", description="Patient name") # Pydantic v1/v2 hybrid, Field is metadata, 
                                                                                         # but ambigous for IDE/mypy, as name is treated as FieldInfo (not str)
     name: Annotated[Optional[str], Field(default="UNKNOWN UNKNOWN", description="Patient name")]  # v2-recommended, cleaner for modern usage
-    email_fmt: EmailStr
+    email: EmailStr
     age: int
     weight: float = Field(gt=0, lt=150, default=50, description='A decimal value representing the weight of the patient')
     # married: bool = None    # ie Optional ie the field value can be None or bool
@@ -18,14 +18,15 @@ class Patient(BaseModel):
     allergies: List[str]
     contact_details: Dict[str, str]
 
-    @field_validator('email_fmt')
+    @field_validator('email')
     @classmethod        # always classmethod as Validators run during object construction, not after. 
     def email_validator(cls, value): # At validation time, the instance (self) doesn't exist yet or is incomplete.
-        valid_domains = ['hdfc.com', 'icici.com']
+        valid_domains = ['hdfc.com', 'icici.com', 'icici.bank', 'hdfc.bank']
         # abc@gmail.com
         domain_name = value.split('@')[-1]
         if domain_name not in valid_domains:
-            raise ValueError('Not a valid domain')
+            raise ValueError('Not a valid banking domain, beware of frauds')
+        # print("hi usr: ", value.split('@')[0])
         return value    # Always remember to return value, else None will be returned
     
     @field_validator('name')
@@ -60,7 +61,7 @@ def update_patient_data(patient: Patient):
     print(patient.married)
     print('updated')
 
-patient_info = {'name':'zuSix', 'email':'abc@icici.com', 'age': 'age is 3_0', 'weight': 75.2, 'married': True, 'allergies': ['pollen', 'dust'], 'contact_details':{'phone':'2353462'}}
+patient_info = {'name':'zuSix', 'email':'murugappa.swaminathan@icici.bank', 'age': 'age is 3_0', 'weight': 75.2, 'married': True, 'allergies': ['pollen', 'dust'], 'contact_details':{'phone':'2353462'}}
 
 patient1 = Patient(**patient_info) # validation -> type coercion
 

@@ -20,7 +20,7 @@ insert_patient_data2('susamay', 'twenty')   # Type hinting does not enforce type
 print("=== NOW USING MANUAL TYPE CHECKING ===")
 
 def insert_patient_data3(name, age):
-    if not isinstance(name, str):           # or, if type(name) is not str:
+    if not isinstance(name, str):           # Better as respects inheritance. or, if type(name) is not str:
         raise TypeError('Name must be a string')
     if not isinstance(age, int):
         raise TypeError('Age must be an integer')
@@ -65,7 +65,7 @@ patient_info = {                            # Define input data (as a plain dict
     'weight': 57,    # auto-converted (coerces) to 57.0
     'married': False,
     # 'allergies': ['pollen', 'dust'],
-    'contact_details': {'phone': '2353462'}
+    'contact_details': {'phone': '2353462'} # if num passed as value - error
 }
 
 patient1 = Patient(**patient_info)          # Step 2: Validate and parse the data (create a model instance) else ValidationError
@@ -92,6 +92,7 @@ class Patient(BaseModel):
     linkedin_url: AnyUrl
     age: int = Field(gt=0, le=120)  # DATA VALIDATION - age must be between 0 and 120
     weight: Annotated[float, Field(gt=0, strict=True)]  # strict=True means it should be exactly float, coerce to float is not allowed
+    # married: bool|None|int = None
     married: Annotated[Optional[bool], Field(default=None, description='Is the patient married or not')] = False    # Avoid Confusing: Two defaults but here False wins
     # OR married: Annotated[bool | None, Field(description='Is the patient married or not')]
     allergies: Annotated[Optional[List[str]], Field(default=None, max_length=5)] # max_items=5)] depricated

@@ -1,2 +1,5 @@
 email-validator
 pydantic
+mypy
+jupyterlab
+ipykernel

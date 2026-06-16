@@ -14,7 +14,7 @@ class Patient(BaseModel):
 
     @computed_field
     @property
-    def bmi(self) -> float:     # this will act as variable, included in model_dump()
+    def bmi(self) -> float:     # this funct will act as variable bcoz of @property decorator, included in model_dump()
         bmi = round(self.weight/(self.height**2),2)
         return bmi
 
@@ -34,3 +34,6 @@ patient_info = {'name':'nitish', 'email':'abc@icici.com', 'age': '65', 'weight':
 patient1 = Patient(**patient_info) 
 
 update_patient_data(patient1)
+
+with open('mera_model', 'w+') as fp:
+    fp.write(patient1.model_dump_json())    # OR json.dump(patient1.model_dump(mode="json"), fp)
