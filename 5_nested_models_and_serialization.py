@@ -33,6 +33,11 @@ temp = patient1.model_dump(include=['name', 'age'], exclude= {'address':['state'
 print(temp)
 
 
+# Saving/Sending serialized model
+with open('mera_model.json', 'w+') as fp:
+    fp.write(patient1.model_dump_json())    # OR json.dump(patient1.model_dump(mode="json"), fp)
+
+
 # Benefits of Nested Models
 # --------------------------------
 

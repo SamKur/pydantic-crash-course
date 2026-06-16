@@ -34,6 +34,3 @@ patient_info = {'name':'nitish', 'email':'abc@icici.com', 'age': '65', 'weight':
 patient1 = Patient(**patient_info) 
 
 update_patient_data(patient1)
-
-with open('mera_model', 'w+') as fp:
-    fp.write(patient1.model_dump_json())    # OR json.dump(patient1.model_dump(mode="json"), fp)
